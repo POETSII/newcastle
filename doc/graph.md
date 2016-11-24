@@ -1,4 +1,4 @@
-# POETS graph
+# POETS abstract computation graphs
 
 At the abstract level POETS graphs contain _vertices_ connected by _edges_. Edges are
 directed and connect an _output port_ of a vertex to an _input port_ of a vertex. Edges
