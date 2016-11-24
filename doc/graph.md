@@ -52,3 +52,16 @@ earliest opportunity. The send handler should only be called when ready-to-send 
 Note: since a vertex can have multiple send handlers (one per output port), we can consider the following variants
 of the ready-to-send function: _rts : S × P × O → Bool_ (where _O_ is the output port) and _rts : S × P → Maybe O_.
 The latter either returns _Nothing_ if the vertex is not ready to send, or a specific port that is ready to send.
+
+## Low-level event handlers
+
+In the interest of efficiency, the actual low-level event handlers written in C will not be implemented as pure functions
+but instead will be mutating vertex states and messages in place. Below we list prototypes of C functions that will act
+as low-level handlers.
+
+* Receive handler `void Receive(const M *message)` receives a pointer to a constant message, mutates the vertex state,
+and can read its properties.
+* Compute handler `void Compute()` performs the computation, mutates the vertex state, and can read its properties.
+* Send handler `bool Send(M *message)` constructs a message to be sent at the given location (specified by the pointer).
+It can also mutate the vertex state and read its properties. The handler returns _True_ to indicate that the message has
+been constructed or _False_ if the sending has been cancelled and no message should be sent.
